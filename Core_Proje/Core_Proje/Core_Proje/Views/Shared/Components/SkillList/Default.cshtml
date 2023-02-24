@@ -1,0 +1,56 @@
+﻿@using EntityLayer.Concrete
+@model List<Skill>
+
+<div class="section px-3 px-lg-4 pt-5" id="skills">
+    <div class="container-narrow">
+        <div class="text-center mb-5">
+            <h2 class="marker marker-center">Yetenekler</h2>
+        </div>
+        <div class="text-center">
+            <p class="mx-auto mb-3" style="max-width:600px">Aşağıda bildiğim programlar ve teknolojiler hakkında bir bar bulunmaktadır.Umarım daha da artacaktır.</p>
+        </div>
+        <div class="bg-light p-3">
+            <div class="row">
+                @{
+                    int modelCount = Model.Count; //veri tabanına giriş yaptığımız kayıtların sayısını alıyoruz
+                    int first = 0; //.Take için girmemiz gereken değeri tanımlıyoruz
+                    int last = 0; //.TakeLast için girmemiz gereken değeri tanımlıyoruz
+
+                    if (modelCount % 2 == 0) { first = modelCount / 2; last = first; }
+                    //eğer veri tabanına eklenmiş kayıt sayısı çift iste firt ve last'ın aynı olması yeterli (modelCount'u ikiye bölüyoruz)
+
+                    else { first = (modelCount + 1) / 2; last = first - 1; } 
+                    //eğer veri tabanına eklenmiş kayıt sayısı tek sayı ise firt değişkenini last değişkeninden 1 fazla olacak şekilde ayarlıyoruz. (Örn: sola 4, sağa 3 şeklinde)
+
+                    var delay = 100; //delay verebilmek için değişkenimizi tanımlıyoruz
+                    <div class="col-md-5">
+                        @foreach (var item in Model.Take(first))
+                        {
+                            <div class="py-1">
+                                <div class="d-flex text-small fw-bolder"><span class="me-auto">@item.Title</span><span>@item.Value%</span></div>
+                                <div class="progress my-1">
+                                    <div class="progress-bar bg-primary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="@delay" data-aos-anchor=".skills-section" style="width: @item.Value.Insert(item.Value.Length, "%")" aria-valuenow="@item.Value" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            delay += 100;
+                        }
+
+                    </div>
+                    delay = 100;
+                    <div class="col-md-5 offset-md-2">
+                        @foreach (var item in Model.TakeLast(last))
+                        {
+                            <div class="py-1">
+                                <div class="d-flex text-small fw-bolder"><span class="me-auto">@item.Title</span><span>@item.Value%</span></div>
+                                <div class="progress my-1">
+                                    <div class="progress-bar bg-primary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="@delay" data-aos-anchor=".skills-section" style="width: @item.Value.Insert(item.Value.Length, "%")" aria-valuenow="@item.Value" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            delay += 100; //her div yazıldıktan sonra delay değişkenini 100 arttırıyoruz.
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
